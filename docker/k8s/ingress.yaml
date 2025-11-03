@@ -1,0 +1,34 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: proctorx-ingress
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  rules:
+    - host: app.proctorx.example
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: proctorx-frontend
+                port:
+                  number: 80
+    - host: api.proctorx.example
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: proctorx-backend
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - app.proctorx.example
+        - api.proctorx.example
+      secretName: proctorx-tls

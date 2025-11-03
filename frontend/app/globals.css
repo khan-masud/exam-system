@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+dark :root {
+  color-scheme: dark;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+.glass-card {
+  @apply rounded-2xl border border-white/10 bg-white/5 shadow-lg shadow-primary/20 backdrop-blur-64;
+}

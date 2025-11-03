@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" font-family="'Inter', sans-serif">
+  <style>
+    .entity { fill: #0f172a; stroke: #6366f1; stroke-width: 2; rx: 18; ry: 18; }
+    .text { fill: #e2e8f0; font-size: 18px; }
+    .title { font-weight: 600; font-size: 20px; }
+    .link { stroke: #38bdf8; stroke-width: 2; marker-end: url(#arrow); }
+  </style>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="6" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#38bdf8" />
+    </marker>
+  </defs>
+  <rect x="40" y="40" width="240" height="140" class="entity" />
+  <text x="60" y="80" class="title">users</text>
+  <text x="60" y="110" class="text">id • email • phone</text>
+  <text x="60" y="140" class="text">password_hash • locale</text>
+
+  <rect x="340" y="40" width="240" height="120" class="entity" />
+  <text x="360" y="80" class="title">roles</text>
+  <text x="360" y="110" class="text">id • name • permissions</text>
+
+  <rect x="640" y="40" width="260" height="160" class="entity" />
+  <text x="660" y="80" class="title">exams</text>
+  <text x="660" y="110" class="text">id • slug • title</text>
+  <text x="660" y="140" class="text">price • settings</text>
+
+  <rect x="960" y="40" width="260" height="160" class="entity" />
+  <text x="980" y="80" class="title">attempts</text>
+  <text x="980" y="110" class="text">id • status • score</text>
+  <text x="980" y="140" class="text">duration • analytics</text>
+
+  <rect x="40" y="260" width="260" height="160" class="entity" />
+  <text x="60" y="300" class="title">questions</text>
+  <text x="60" y="330" class="text">id • subject_id</text>
+  <text x="60" y="360" class="text">type • difficulty</text>
+
+  <rect x="340" y="260" width="260" height="160" class="entity" />
+  <text x="360" y="300" class="title">question_versions</text>
+  <text x="360" y="330" class="text">id • question_id</text>
+  <text x="360" y="360" class="text">content • locale_variants</text>
+
+  <rect x="640" y="260" width="260" height="160" class="entity" />
+  <text x="660" y="300" class="title">exam_forms</text>
+  <text x="660" y="330" class="text">id • exam_id</text>
+  <text x="660" y="360" class="text">code • policy</text>
+
+  <rect x="960" y="260" width="260" height="160" class="entity" />
+  <text x="980" y="300" class="title">leaderboards</text>
+  <text x="980" y="330" class="text">scope • period</text>
+  <text x="980" y="360" class="text">score • tiebreak</text>
+
+  <rect x="40" y="480" width="260" height="160" class="entity" />
+  <text x="60" y="520" class="title">payments</text>
+  <text x="60" y="550" class="text">provider • status</text>
+  <text x="60" y="580" class="text">amount • ipn_payload</text>
+
+  <rect x="340" y="480" width="260" height="160" class="entity" />
+  <text x="360" y="520" class="title">notifications</text>
+  <text x="360" y="550" class="text">channel • payload</text>
+  <text x="360" y="580" class="text">status • attempts</text>
+
+  <rect x="640" y="480" width="260" height="160" class="entity" />
+  <text x="660" y="520" class="title">licenses</text>
+  <text x="660" y="550" class="text">purchase_code • domain</text>
+  <text x="660" y="580" class="text">status • last_check</text>
+
+  <line x1="280" y1="110" x2="340" y2="110" class="link" />
+  <line x1="580" y1="120" x2="640" y2="120" class="link" />
+  <line x1="900" y1="120" x2="960" y2="120" class="link" />
+  <line x1="170" y1="200" x2="170" y2="260" class="link" />
+  <line x1="470" y1="200" x2="470" y2="260" class="link" />
+  <line x1="770" y1="200" x2="770" y2="260" class="link" />
+  <line x1="1090" y1="200" x2="1090" y2="260" class="link" />
+  <line x1="170" y1="420" x2="170" y2="480" class="link" />
+  <line x1="470" y1="420" x2="470" y2="480" class="link" />
+</svg>

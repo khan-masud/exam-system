@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proctorx-frontend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: proctorx-frontend
+  template:
+    metadata:
+      labels:
+        app: proctorx-frontend
+    spec:
+      containers:
+        - name: frontend
+          image: ghcr.io/proctorx/frontend:1.0.0
+          ports:
+            - containerPort: 3000
+          env:
+            - name: NEXT_PUBLIC_API_URL
+              value: https://api.proctorx.example
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: proctorx-frontend
+spec:
+  selector:
+    app: proctorx-frontend
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000

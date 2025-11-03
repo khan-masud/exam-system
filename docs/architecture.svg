@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600" font-family="'Inter', sans-serif">
+  <style>
+    .box { fill: rgba(15,23,42,0.8); stroke: #38bdf8; stroke-width: 2; rx: 24; ry: 24; }
+    text { fill: #e2e8f0; font-size: 18px; }
+    .title { font-size: 22px; font-weight: 600; }
+    .arrow { stroke: #6366f1; stroke-width: 2; marker-end: url(#arrow); }
+  </style>
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="6" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#6366f1" />
+    </marker>
+  </defs>
+  <rect x="80" y="60" width="300" height="140" class="box" />
+  <text x="120" y="110" class="title">PWA Frontend (Next.js)</text>
+  <text x="120" y="140">App Router • Tailwind • shadcn/ui</text>
+  <text x="120" y="170">Offline Shell • Command Palette</text>
+
+  <rect x="450" y="60" width="320" height="200" class="box" />
+  <text x="490" y="110" class="title">API Gateway (NestJS)</text>
+  <text x="490" y="140">Auth • Exams • Attempts • Payments</text>
+  <text x="490" y="170">JWT rotation • RBAC Guards</text>
+  <text x="490" y="200">Swagger • Rate limits • CSP</text>
+
+  <rect x="850" y="60" width="280" height="200" class="box" />
+  <text x="890" y="110" class="title">Data Plane</text>
+  <text x="890" y="140">PostgreSQL + Prisma/TypeORM</text>
+  <text x="890" y="170">Redis (sessions, leaderboard)</text>
+  <text x="890" y="200">MinIO/S3 • BullMQ Workers</text>
+
+  <rect x="80" y="320" width="300" height="180" class="box" />
+  <text x="120" y="360" class="title">Observability</text>
+  <text x="120" y="390">Winston Logs • Sentry • OTEL</text>
+  <text x="120" y="420">Prometheus • Grafana Dashboards</text>
+
+  <rect x="450" y="320" width="320" height="180" class="box" />
+  <text x="490" y="360" class="title">Security Layer</text>
+  <text x="490" y="390">WAF • HSTS • CSP • Argon2</text>
+  <text x="490" y="420">Anti-cheat heuristics • Proctor AI</text>
+
+  <rect x="850" y="320" width="280" height="180" class="box" />
+  <text x="890" y="360" class="title">Deployment</text>
+  <text x="890" y="390">Docker Compose (dev)</text>
+  <text x="890" y="420">Kubernetes + Nginx Ingress</text>
+  <text x="890" y="450">CI/CD • GitHub Actions</text>
+
+  <line x1="380" y1="130" x2="450" y2="130" class="arrow" />
+  <line x1="770" y1="140" x2="850" y2="140" class="arrow" />
+  <line x1="600" y1="260" x2="600" y2="320" class="arrow" />
+  <line x1="990" y1="260" x2="990" y2="320" class="arrow" />
+  <line x1="230" y1="320" x2="230" y2="200" class="arrow" />
+</svg>
