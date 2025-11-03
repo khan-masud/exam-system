@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ProctorX Online Exam Suite – Help Center</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    body { font-family: 'Inter', sans-serif; background: #0f172a; color: #e2e8f0; margin: 0; padding: 40px; }
+    h1, h2 { color: #38bdf8; }
+    code { background: rgba(148, 163, 184, 0.2); padding: 4px 6px; border-radius: 6px; }
+    a { color: #a855f7; }
+    section { margin-bottom: 32px; }
+    .card { background: rgba(15, 23, 42, 0.8); border-radius: 20px; padding: 24px; box-shadow: 0 20px 60px rgba(99, 102, 241, 0.25); }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <h1>ProctorX Online Exam Suite</h1>
+    <p>Thank you for purchasing ProctorX. This help file walks you through installation, configuration, and troubleshooting.</p>
+
+    <section>
+      <h2>Requirements</h2>
+      <ul>
+        <li>Node.js 20.x, npm 10.x</li>
+        <li>PostgreSQL 15+, Redis 7+, MinIO/S3 bucket</li>
+        <li>Server with HTTPS (Nginx provided)</li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Installation Wizard</h2>
+      <ol>
+        <li>Upload the ZIP package to your server and extract.</li>
+        <li>Run <code>cp backend/.env.example backend/.env</code> and update credentials.</li>
+        <li>Navigate to <code>/install</code> in your browser to execute the wizard.</li>
+        <li>The wizard runs migrations, seeds demo data, and creates the first admin.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>License Activation</h2>
+      <p>Go to <code>/admin/settings/license</code>, paste your Envato purchase code, and click <strong>Activate</strong>. The system will call the remote license server and store the handshake offline for 72 hours.</p>
+    </section>
+
+    <section>
+      <h2>Payments</h2>
+      <p>Configure SSLCOMMERZ, bKash, Nagad, and Rocket under <code>Admin → Settings → Payments</code>. IPN endpoints are automatically generated under <code>/ipn/&lt;provider&gt;</code>.</p>
+    </section>
+
+    <section>
+      <h2>Support</h2>
+      <p>Email: <a href="mailto:support@proctorx.dev">support@proctorx.dev</a> (48h response SLA)</p>
+      <p>Documentation: <a href="https://docs.proctorx.dev">https://docs.proctorx.dev</a></p>
+    </section>
+  </main>
+</body>
+</html>

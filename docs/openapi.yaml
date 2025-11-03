@@ -1,0 +1,475 @@
+openapi: 3.1.0
+info:
+  title: ProctorX Online Exam Suite API
+  version: 1.0.0
+  description: >-
+    REST API for Envato-ready online exam platform with anti-cheat, licensing, payments, and analytics.
+servers:
+  - url: https://api.proctorx.example/api
+security:
+  - bearerAuth: []
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Pagination:
+      type: object
+      properties:
+        total:
+          type: integer
+        page:
+          type: integer
+        pageSize:
+          type: integer
+    ErrorResponse:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+        message:
+          type: string
+        error:
+          type: string
+    AuthTokenPair:
+      type: object
+      properties:
+        accessToken:
+          type: string
+        refreshToken:
+          type: string
+        expiresIn:
+          type: integer
+    ExamSummary:
+      type: object
+      properties:
+        id:
+          type: string
+        slug:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        price:
+          type: number
+        isPublished:
+          type: boolean
+    AttemptManifest:
+      type: object
+      properties:
+        exam:
+          $ref: '#/components/schemas/ExamSummary'
+        forms:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+              code:
+                type: string
+              questions:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    questionId:
+                      type: string
+                    content:
+                      type: object
+                    scoring:
+                      type: object
+paths:
+  /auth/register:
+    post:
+      summary: Register new user
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                phone:
+                  type: string
+                passwordless:
+                  type: boolean
+      responses:
+        '201':
+          description: Token pair
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthTokenPair'
+        '400':
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /auth/login:
+    post:
+      summary: Login with password/OTP
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [identifier]
+              properties:
+                identifier:
+                  type: string
+                password:
+                  type: string
+                otp:
+                  type: string
+      responses:
+        '200':
+          description: Token pair
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthTokenPair'
+  /auth/refresh:
+    post:
+      summary: Exchange refresh token
+      tags: [Auth]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [userId, refreshToken]
+              properties:
+                userId:
+                  type: string
+                refreshToken:
+                  type: string
+      responses:
+        '200':
+          description: New token pair
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthTokenPair'
+  /auth/logout:
+    post:
+      summary: Revoke tokens
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Revoked
+  /subjects:
+    get:
+      summary: List subjects
+      tags: [Catalog]
+      responses:
+        '200':
+          description: Array of subjects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                    name:
+                      type: string
+  /exams:
+    get:
+      summary: List published exams
+      tags: [Catalog]
+      responses:
+        '200':
+          description: Exam catalog
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ExamSummary'
+  /exams/{id}:
+    get:
+      summary: Retrieve exam manifest
+      tags: [Catalog]
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Manifest
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AttemptManifest'
+  /attempts:
+    post:
+      summary: Start attempt
+      tags: [Attempts]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [examId]
+              properties:
+                examId:
+                  type: string
+      responses:
+        '201':
+          description: Attempt + manifest
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  attempt:
+                    type: object
+                  manifest:
+                    $ref: '#/components/schemas/AttemptManifest'
+  /attempts/{id}/answers/batch:
+    post:
+      summary: Save answers batch
+      tags: [Attempts]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                answers:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      questionId:
+                        type: string
+                      payload:
+                        type: object
+      responses:
+        '200':
+          description: Saved count
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  saved:
+                    type: integer
+  /attempts/{id}/submit:
+    post:
+      summary: Submit attempt
+      tags: [Attempts]
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Final score
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  score:
+                    type: number
+  /leaderboard:
+    get:
+      summary: Query leaderboard
+      tags: [Leaderboard]
+      parameters:
+        - in: query
+          name: scope
+          schema:
+            type: string
+            enum: [weekly, monthly, yearly, alltime]
+        - in: query
+          name: examId
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Leaderboard results
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    user:
+                      type: object
+                    score:
+                      type: number
+  /checkout:
+    post:
+      summary: Create checkout order
+      tags: [Payments]
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      examId:
+                        type: string
+                      title:
+                        type: string
+                      price:
+                        type: number
+      responses:
+        '201':
+          description: Order + payment
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  order:
+                    type: object
+                  payment:
+                    type: object
+  /ipn/{provider}:
+    post:
+      summary: Payment IPN webhook
+      tags: [Payments]
+      parameters:
+        - in: path
+          name: provider
+          required: true
+          schema:
+            type: string
+            enum: [sslcommerz, bkash, nagad, rocket]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Ack
+  /license/activate:
+    post:
+      summary: Activate license
+      tags: [License]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [purchaseCode, domain]
+              properties:
+                purchaseCode:
+                  type: string
+                domain:
+                  type: string
+      responses:
+        '200':
+          description: License payload
+          content:
+            application/json:
+              schema:
+                type: object
+  /license/verify:
+    post:
+      summary: Verify license status
+      tags: [License]
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [purchaseCode]
+              properties:
+                purchaseCode:
+                  type: string
+      responses:
+        '200':
+          description: License object
+          content:
+            application/json:
+              schema:
+                type: object
+  /admin/questions/bulk:
+    post:
+      summary: Bulk upload question bank
+      tags: [Admin]
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                format:
+                  type: string
+                  enum: [csv, xlsx, qti22, docx]
+      responses:
+        '202':
+          description: Bulk import queued
+  /admin/analytics/exams:
+    get:
+      summary: Exam analytics dashboard
+      tags: [Admin]
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Metrics snapshot
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  revenue:
+                    type: number
+                  attempts:
+                    type: integer
+                  anomalies:
+                    type: integer
